@@ -2,6 +2,9 @@
 #
 # Exercise 1.7
 
+from posixpath import splitext
+
+
 principal = 500000.0
 rate = 0.05
 payment = 2684.11
@@ -27,9 +30,15 @@ while principal > 0:
         total_paid = total_paid - abs(principal)
         principal = 0.0
 
-    print(str(count_of_months) + " " + str(round(total_paid, 2)) + " " + str(round(principal, 2)))
+    monthly_status = f'Month {count_of_months} | Total paid: ${total_paid:0.2f} | Remaining amount: ${principal:0.2f}'
+    print(monthly_status)
 
     count_of_months = count_of_months + 1
 
-print('Total paid:', round(total_paid, 2))
-print('Total number of months:', count_of_months - 1)
+splitter = f'{60 * "-"}'
+total_payment = f'Total paid amount: ${total_paid:0.2f}'
+total_months = f'Total number of months needed: {count_of_months - 1}'
+
+print(splitter)
+print(total_payment)
+print(total_months)
