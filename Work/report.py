@@ -12,12 +12,7 @@ def read_portfolio(filename):
     rows = csv.reader(file)
     headers = next(rows)
     for row in rows:
-      #holding = (row[0], int(row[1]), float(row[2]))
-      holding = {
-        headers[0] : row[0],
-        headers[1] : int(row[1]),
-        headers[2] : float(row[2]) 
-      }
+      holding = dict(zip(headers, row))
       portfolio.append(holding)
   return portfolio
 
@@ -39,11 +34,11 @@ def make_report(portfolio, prices):
   stock_changes = []
 
   for item in portfolio:
-    stock_changes.append((item['name'], item['shares'], prices[item['name']], prices[item['name']] - item['price']))
+    stock_changes.append((item['name'], int(item['shares']), float(prices[item['name']]), float(prices[item['name']]) - float(item['price'])))
   
   return stock_changes
 
-portfolio = read_portfolio('Data/portfolio.csv')
+portfolio = read_portfolio('Data/portfoliodate.csv')
 
 prices = read_prices('Data/prices.csv')
 
@@ -52,8 +47,8 @@ current_value = 0.0
 
 for element in portfolio:
   #print(f"{ element['name'] }: { element['shares'] * prices[element['name']] }")
-  purchase_value += element['shares'] * element['price']
-  current_value += element['shares'] * prices[element['name']]
+  purchase_value += int(element['shares']) * float(element['price'])
+  current_value += int(element['shares']) * float(prices[element['name']])
   
 profit = current_value - purchase_value
 
@@ -80,3 +75,4 @@ for name, shares, price, change in report:
   updated_price = str(price).replace(str(price), "$"+str(price))
   print(f'{name:>10s} {shares:>10d} {updated_price:>10s} {change:>10.2f}')
 
+print("\n")
